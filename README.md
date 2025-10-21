@@ -1,4 +1,4 @@
-# 🎓 Student Life Hub
+# Student Life Hub
 
 A web application to help students manage their academic life, health, fitness, and sleep - powered by AI.
 
@@ -8,7 +8,7 @@ A web application to help students manage their academic life, health, fitness, 
 ![Firebase](https://img.shields.io/badge/Firebase-12.0-orange)
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5-purple)
 
-## ✨ Features
+## Features
 
 ### Coursework Management
 - Create and organize courses
@@ -165,7 +165,7 @@ Student-life-hub/
 └── README.md               # This file
 ```
 
-## 🎨 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework**: React 18
@@ -192,13 +192,13 @@ Student-life-hub/
 - **Database**: Cloud Firestore
 - **AI**: OpenAI
 
-## 📚 Documentation
+## Documentation
 
 - **[Frontend README](frontend/README.md)** - Frontend setup and features
 - **[Backend README](backend/README.md)** - API documentation
 - **[SRS Document](SWENG411%20SRS%20Team%20X.pdf)** - Requirements specification
 
-## 🔑 API Endpoints
+## API Endpoints
 
 ### Health Check
 ```http
@@ -228,7 +228,7 @@ Body: { "averageHours": 7, "consistency": 85, "recentLogs": [...] }
 
 See [Backend README](backend/README.md) for complete API documentation.
 
-## 🔐 Environment Variables
+## Environment Variables
 
 ### Frontend (.env)
 ```env
@@ -252,9 +252,9 @@ OPENAI_API_KEY=...
 FRONTEND_URL=http://localhost:5173
 ```
 
-## 🎯 Features Roadmap
+## Features Roadmap
 
-### Completed ✅
+### Completed
 - [x] User authentication (Email + Google)
 - [x] Coursework management
 - [x] Assignment tracking
@@ -266,7 +266,7 @@ FRONTEND_URL=http://localhost:5173
 - [x] Backend API
 - [x] Rate limiting
 
-### Planned 🚧
+### Planned
 - [ ] Mobile app (React Native)
 - [ ] Push notifications
 - [ ] Study groups/collaboration
@@ -276,7 +276,7 @@ FRONTEND_URL=http://localhost:5173
 - [ ] Social features
 - [ ] Grade tracking
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 
@@ -285,16 +285,16 @@ Contributions are welcome! Please:
 3. Make your changes
 4. Submit a pull request
 
-## 👥 Team
+## Team
 
 Created as part of SWENG411 course project by J.A.D.E.
 
-## 🐛 Known Issues
+## Known Issues
 
 - OpenAI API costs money (works in demo mode without key)
 - Firebase free tier limits (10GB storage, 50k reads/day)
 
-## 📄 License
+## License
 
 MIT License
 ---
