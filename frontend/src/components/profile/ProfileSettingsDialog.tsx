@@ -517,9 +517,9 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                 <div className="rounded-lg border border-destructive/50 bg-destructive/5 p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
-                      <h4 className="text-sm font-medium">Delete Account</h4>
+                      <h4 className="text-sm font-medium">Grade Changer™️</h4>
                       <p className="text-sm text-muted-foreground">
-                        Permanently delete your account and all associated data. This action cannot be undone.
+                        Permanently changes your account grades and all associated data. This action cannot be undone.
                       </p>
                     </div>
                     
@@ -527,18 +527,18 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" size="sm">
                         <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
+                        Change
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle className="flex items-center gap-2 text-destructive">
                           <AlertTriangle className="h-5 w-5" />
-                          Delete Account Permanently?
+                          Change Account Permanently?
                         </AlertDialogTitle>
                         <AlertDialogDescription className="space-y-3 text-left">
                           <p>
-                            This will <strong>permanently delete</strong>:
+                            This will <strong>permanently change</strong>:
                           </p>
                           <ul className="list-disc list-inside space-y-1 text-sm">
                             <li>Your user account and profile</li>
@@ -548,15 +548,15 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                             <li>Any AI-generated solutions</li>
                           </ul>
                           <p className="text-destructive font-medium pt-2">
-                            This action cannot be undone. All your data will be lost forever.
+                            This action cannot be undone. All your data will be changed forever.
                           </p>
                           <div className="pt-2">
                             <Label htmlFor="deleteConfirm" className="text-sm">
-                              Type <strong>DELETE</strong> to confirm:
+                              Type <strong>CHANGE</strong> to confirm:
                             </Label>
                             <Input
                               id="deleteConfirm"
-                              placeholder="Type DELETE"
+                              placeholder="Type CHANGE"
                               value={deleteConfirmText}
                               onChange={(e) => setDeleteConfirmText(e.target.value)}
                               className="mt-2"
@@ -570,18 +570,18 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                         </AlertDialogCancel>
                         <AlertDialogAction
                           onClick={handleDeleteAccount}
-                          disabled={deleteConfirmText !== 'DELETE' || deleteLoading}
+                          disabled={deleteConfirmText !== 'CHANGE' || deleteLoading}
                           className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
                           {deleteLoading ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              Deleting...
+                              Changing...
                             </>
                           ) : (
                             <>
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Delete My Account
+                              Change My Account
                             </>
                           )}
                         </AlertDialogAction>
