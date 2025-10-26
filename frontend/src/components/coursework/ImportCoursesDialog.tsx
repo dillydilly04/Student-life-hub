@@ -152,7 +152,7 @@ export function ImportCoursesDialog({ open, onOpenChange, onImportComplete }: Im
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto scrollbar-thin">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Download className="h-5 w-5" />
@@ -320,7 +320,7 @@ export function ImportCoursesDialog({ open, onOpenChange, onImportComplete }: Im
               </AlertDescription>
             </Alert>
 
-            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+            <div className="space-y-3 max-h-[400px] overflow-y-auto scrollbar-thin">
               {importedCourses.map((course, index) => (
                 <div key={index} className="border rounded-lg p-4 space-y-2">
                   <div className="flex items-start justify-between">

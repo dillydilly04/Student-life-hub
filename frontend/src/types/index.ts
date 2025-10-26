@@ -8,6 +8,7 @@ export interface User {
 export interface Student extends User {
   major: string;
   year: number;
+  chatDisplayName?: string;
 }
 
 // Coursework types
@@ -102,9 +103,23 @@ export interface AIInsight {
 // Chat types
 export interface ChatMessage {
   id: string;
+  userId: string;
   username: string;
   content: string;
   timestamp: string;
+  roomId: string;
   isModerated?: boolean;
+}
+
+export interface ChatRoom {
+  id: string;
+  name: string;
+  code: string;
+  type: 'global' | 'private';
+  members: string[];
+  createdBy: string;
+  createdAt: string;
+  maxMembers: number;
+  unreadCount?: number;
 }
 

@@ -54,6 +54,7 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
   const [major, setMajor] = useState('');
   const [year, setYear] = useState('1');
   const [photoURL, setPhotoURL] = useState('');
+  const [chatDisplayName, setChatDisplayName] = useState('');
 
   // Password tab state
   const [currentPassword, setCurrentPassword] = useState('');
@@ -67,6 +68,7 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
       setMajor(studentProfile.major || '');
       setYear(studentProfile.year?.toString() || '1');
       setPhotoURL(currentUser.photoURL || '');
+      setChatDisplayName(studentProfile.chatDisplayName || studentProfile.name || '');
     }
   }, [open, currentUser, studentProfile]);
 
@@ -94,6 +96,7 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
         name,
         major,
         year: parseInt(year),
+        chatDisplayName,
       });
 
       toast({
@@ -309,7 +312,7 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="profile" className="space-y-4 overflow-y-auto flex-1 pr-2">
+          <TabsContent value="profile" className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin">
             <form onSubmit={handleSaveProfile} className="space-y-4">
               {/* Avatar Section */}
               <div className="flex items-center gap-4 py-4">
@@ -332,15 +335,6 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                       onChange={(e) => setPhotoURL(e.target.value)}
                       disabled={loading}
                     />
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      size="icon"
-                      onClick={() => setPhotoURL('')}
-                      title="Reset to default photo"
-                    >
-                      <Camera className="h-4 w-4" />
-                    </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
                     Enter an image URL or leave empty for default photo
@@ -407,6 +401,22 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
                 </div>
               </div>
 
+              {/* Chat Display Name */}
+              <div className="space-y-2">
+                <Label htmlFor="chatDisplayName">Chat Display Name</Label>
+                <Input
+                  id="chatDisplayName"
+                  placeholder="How you appear in private chats"
+                  value={chatDisplayName}
+                  onChange={(e) => setChatDisplayName(e.target.value)}
+                  disabled={loading}
+                  maxLength={30}
+                />
+                <p className="text-xs text-muted-foreground">
+                  This name will be shown in private chat rooms. Leave empty to use your full name.
+                </p>
+              </div>
+
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                   Cancel
@@ -425,7 +435,7 @@ export function ProfileSettingsDialog({ open, onOpenChange }: ProfileSettingsDia
             </form>
           </TabsContent>
 
-          <TabsContent value="security" className="space-y-4 overflow-y-auto flex-1 pr-2">
+          <TabsContent value="security" className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin">
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div className="rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-4">
                 <p className="text-sm text-blue-900 dark:text-blue-100">

@@ -68,14 +68,6 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="border-t p-4">
-        <div className="flex items-center gap-2 rounded-lg bg-blue-50 dark:bg-blue-950 p-3 text-sm">
-          <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-          <span className="text-xs text-blue-900 dark:text-blue-100">
-            AI-Powered Features
-          </span>
-        </div>
-      </div>
     </div>
   );
 }

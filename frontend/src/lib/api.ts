@@ -110,5 +110,108 @@ export const api = {
       body: JSON.stringify({ content, username }),
     });
   },
+
+  /**
+   * Chat room functionality
+   */
+  async getChatRooms() {
+    return apiRequest('/api/chat/rooms');
+  },
+
+  async createChatRoom(name: string, customCode?: string) {
+    return apiRequest('/api/chat/rooms/create', {
+      method: 'POST',
+      body: JSON.stringify({ name, customCode }),
+    });
+  },
+
+  async joinChatRoom(roomCode: string) {
+    return apiRequest('/api/chat/rooms/join', {
+      method: 'POST',
+      body: JSON.stringify({ roomCode }),
+    });
+  },
+
+  async getRoomMessages(roomId: string, limit?: number) {
+    const params = limit ? `?limit=${limit}` : '';
+    
+    // For global room, don't require authentication
+    if (roomId === 'global') {
+      const response = await fetch(`${API_URL}/api/chat/rooms/${roomId}/messages${params}`);
+      
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(error.error || `HTTP ${response.status}`);
+      }
+      
+      return response.json();
+    }
+    
+    // For private rooms, use authenticated request
+    return apiRequest(`/api/chat/rooms/${roomId}/messages${params}`);
+  },
+
+  async sendRoomMessage(roomId: string, content: string, username?: string) {
+    // For global room, don't require authentication
+    if (roomId === 'global') {
+      const response = await fetch(`${API_URL}/api/chat/rooms/${roomId}/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content, username }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(error.error || `HTTP ${response.status}`);
+      }
+      
+      return response.json();
+    }
+    
+    // For private rooms, use authenticated request
+    return apiRequest(`/api/chat/rooms/${roomId}/send`, {
+      method: 'POST',
+      body: JSON.stringify({ content, username }),
+    });
+  },
+
+  async updateChatRoom(roomId: string, updates: { name?: string; code?: string }) {
+    return apiRequest(`/api/chat/rooms/${roomId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+  },
+
+  async leaveChatRoom(roomId: string) {
+    return apiRequest(`/api/chat/rooms/${roomId}/leave`, {
+      method: 'DELETE',
+    });
+  },
+
+  async deleteChatRoom(roomId: string) {
+    return apiRequest(`/api/chat/rooms/${roomId}`, {
+      method: 'DELETE',
+    });
+  },
+
+  async inviteUserToRoom(roomId: string, inviteeUserId: string) {
+    return apiRequest(`/api/chat/rooms/${roomId}/invite`, {
+      method: 'POST',
+      body: JSON.stringify({ inviteeUserId }),
+    });
+  },
+
+  async getChatProfile() {
+    return apiRequest('/api/chat/profile');
+  },
+
+  async updateChatProfile(chatDisplayName: string) {
+    return apiRequest('/api/chat/profile', {
+      method: 'PUT',
+      body: JSON.stringify({ chatDisplayName }),
+    });
+  },
 };
 

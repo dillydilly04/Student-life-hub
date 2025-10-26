@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { initializeFirebaseAdmin } from './config/firebase';
+import { initializeChatService } from './routes/chat';
 import aiRoutes from './routes/ai';
 import healthRoutes from './routes/health';
 import chatRoutes from './routes/chat';
@@ -17,6 +18,12 @@ const PORT = process.env.PORT || 3001;
 
 // Initialize Firebase Admin
 initializeFirebaseAdmin();
+
+// Initialize chat service after Firebase is ready
+const chatService = initializeChatService();
+chatService.initializeGlobalRoom().catch(error => {
+  console.error('Failed to initialize global chat room:', error);
+});
 
 // Middleware
 app.use(helmet()); // Security headers
