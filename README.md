@@ -278,8 +278,9 @@ FRONTEND_URL=http://localhost:5173
 
 ## Contributing
 
-Contributions are welcome! Please:
+### This repo is for a course project, so contributions at this time will not be accepted. We intend to continue the project after the course is finished. Once finished, this message will be deleted
 
+Contributions are Welcome! In order to contribute: 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
