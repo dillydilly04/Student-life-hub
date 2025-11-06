@@ -2,30 +2,54 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkles, Calendar, Heart, BookOpen, Moon, MessageCircle } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useTheme } from '@/contexts/ThemeContext';
+import { Sparkles, Calendar, Heart, BookOpen, Moon, MessageCircle, Sun, Monitor } from 'lucide-react';
 
 const rotatingWords = ['Life', 'Schedule', 'Health', 'Coursework', 'Sleep'];
 
 export function LandingPage() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isFlipping, setIsFlipping] = useState(false);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { setTheme, actualTheme } = useTheme();
 
   useEffect(() => {
-    // Start the animation cycle after initial mount
-    const interval = setInterval(() => {
-      setIsFlipping(true);
-      // Wait for flip-out animation to complete, then change word and flip in
-      setTimeout(() => {
-        setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
-        // Small delay to ensure React has updated the DOM before applying flip-in
-        setTimeout(() => {
-          setIsFlipping(false);
-        }, 10);
-      }, 300); // Duration of flip-out animation
-    }, 2500); // Change word every 2.5 seconds
+    const currentWord = rotatingWords[currentWordIndex];
+    let timeout: ReturnType<typeof setTimeout>;
 
-    return () => clearInterval(interval);
-  }, []);
+    if (!isDeleting && displayedText.length < currentWord.length) {
+      // Typing out the word
+      timeout = setTimeout(() => {
+        setDisplayedText(currentWord.slice(0, displayedText.length + 1));
+      }, 100); // Typing speed
+    } else if (!isDeleting && displayedText.length === currentWord.length) {
+      // Word is fully typed, wait before deleting
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, 5000); // Pause at end of word
+    } else if (isDeleting && displayedText.length > 0) {
+      // Deleting the word
+      timeout = setTimeout(() => {
+        setDisplayedText(currentWord.slice(0, displayedText.length - 1));
+      }, 50); // Deleting speed (faster than typing)
+    } else if (isDeleting && displayedText.length === 0) {
+      // Word is fully deleted, move to next word
+      setIsDeleting(false);
+      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [currentWordIndex, displayedText, isDeleting]);
 
   const features = [
     {
@@ -63,7 +87,34 @@ export function LandingPage() {
           <Sparkles className="h-8 w-8 text-primary" />
           <span className="text-2xl font-bold">Student Life Hub</span>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                {actualTheme === 'light' ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel>Theme</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                <Sun className="mr-2 h-4 w-4" />
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                <Moon className="mr-2 h-4 w-4" />
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
+                <Monitor className="mr-2 h-4 w-4" />
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button variant="ghost" asChild>
             <Link to="/login">Sign In</Link>
           </Button>
@@ -79,13 +130,9 @@ export function LandingPage() {
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
             <div>Manage your</div>
             <div className="relative inline-block min-w-[200px] md:min-w-[300px] text-primary">
-              <span
-                key={currentWordIndex}
-                className={`inline-block ${
-                  isFlipping ? 'animate-flip-out' : 'animate-flip-in'
-                }`}
-              >
-                {rotatingWords[currentWordIndex]}
+              <span className="inline-block pt-5">
+                {displayedText}
+                <span className="animate-blink cursor-line"></span>
               </span>
             </div>
           </h1>
@@ -163,42 +210,34 @@ export function LandingPage() {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 border-t">
         <div className="text-center text-muted-foreground">
-          <p>&copy; 2024 Student Life Hub. All rights reserved.</p>
+          <p>&copy; 2025 Student Life Hub. All rights reserved.</p>
         </div>
       </footer>
 
       <style>{`
-        @keyframes flip-in {
-          0% {
-            opacity: 0;
-            transform: perspective(1000px) rotateX(90deg) translateY(20px);
-          }
-          100% {
+        @keyframes blink {
+          0%, 50% {
             opacity: 1;
-            transform: perspective(1000px) rotateX(0deg) translateY(0);
           }
-        }
-        
-        @keyframes flip-out {
-          0% {
-            opacity: 1;
-            transform: perspective(1000px) rotateX(0deg) translateY(0);
-          }
-          100% {
+          51%, 100% {
             opacity: 0;
-            transform: perspective(1000px) rotateX(-90deg) translateY(-20px);
           }
         }
         
-        .animate-flip-in {
-          animation: flip-in 0.3s ease-out forwards;
+        .animate-blink {
+          animation: blink 1s infinite;
+          margin-left: 8px;
         }
         
-        .animate-flip-out {
-          animation: flip-out 0.3s ease-in forwards;
+        .cursor-line {
+          display: inline-block;
+          width: 2px;
+          height: 0.75em;
+          background-color: currentColor;
         }
       `}</style>
     </div>
   );
 }
+
 
