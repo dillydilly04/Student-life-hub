@@ -130,7 +130,7 @@ npm run dev
 - **Backend API**: http://localhost:3001
 - **API Health**: http://localhost:3001/api/health
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Student-life-hub/
