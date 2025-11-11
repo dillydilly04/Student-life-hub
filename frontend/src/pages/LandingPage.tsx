@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Sparkles, Calendar, Heart, BookOpen, Moon, MessageCircle, Sun, Monitor } from 'lucide-react';
+import { Sparkles, Calendar, Heart, BookOpen, Moon, MessageCircle, Sun, Monitor, Check } from 'lucide-react';
 
 const rotatingWords = ['Life', 'Schedule', 'Health', 'Coursework', 'Sleep'];
 
@@ -76,6 +76,34 @@ export function LandingPage() {
       icon: MessageCircle,
       title: 'Student Chat',
       description: 'Connect with other students and get help with coursework.',
+    },
+  ];
+
+  const pricingTiers = [
+    {
+      name: 'Free',
+      price: '$0',
+      frequency: 'per month',
+      description: 'Perfect for students who are just getting started.',
+      highlight: false,
+      features: [
+        'Organize classes and assignments',
+        'Basic habit and sleep tracking',
+        'Access to student community',
+      ],
+    },
+    {
+      name: 'Pro',
+      price: '$10',
+      frequency: 'per month',
+      description: 'Unlock advanced insights and automation for your routines.',
+      highlight: true,
+      features: [
+        'Everything in Free',
+        'Smart scheduling suggestions',
+        'Advanced wellness analytics',
+        'Priority support',
+      ],
     },
   ];
 
@@ -178,6 +206,58 @@ export function LandingPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="container mx-auto px-4 py-20">
+        <div className="max-w-5xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold">Simple pricing that scales with you</h2>
+          <p className="text-lg text-muted-foreground mt-4">
+            Start for free and upgrade when you want smarter automation and deeper insights.
+          </p>
+        </div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          {pricingTiers.map((tier) => (
+            <Card
+              key={tier.name}
+              className={`h-full border ${
+                tier.highlight ? 'border-primary shadow-lg shadow-primary/20' : 'border-border'
+              }`}
+            >
+              <CardHeader>
+                <div className="flex flex-col items-start gap-2">
+                  <CardTitle className="text-2xl">{tier.name}</CardTitle>
+                  <p className="text-4xl font-bold">
+                    {tier.price}
+                    <span className="text-base font-medium text-muted-foreground ml-2">
+                      {tier.frequency}
+                    </span>
+                  </p>
+                  <CardDescription className="text-left">{tier.description}</CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 text-left">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span className="mt-1">
+                        <Check className="h-5 w-5 text-primary" />
+                      </span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
+                  <Button className="w-full" variant={tier.highlight ? 'default' : 'outline'} asChild>
+                    <Link to={tier.highlight ? '/register' : '/login'}>
+                      {tier.highlight ? 'Start Free Trial' : 'Stay on Free Plan'}
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
